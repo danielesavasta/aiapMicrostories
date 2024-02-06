@@ -25,7 +25,7 @@ async function save(){
 // console.log(jsonContent);
 
   const utcTimestamp = new Date().yyyyMMddHHmmss();
-  const uri="../backup/output"+utcTimestamp+".json";
+  const uri="backup/output"+utcTimestamp+".json";
   const j=JSON.stringify(jsonContent);
 
   fs.writeFile(uri, j, 'utf8', function (err) {

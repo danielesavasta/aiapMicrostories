@@ -1,5 +1,5 @@
 const MongoClient = require("mongodb").MongoClient;
-const connectionString = "mongodb://0.0.0.0:27017/"; //?directConnection=true
+const connectionString = process.env.MONGOD_CONNECT_URI; //?directConnection=true
 
 const client = new MongoClient(connectionString, {
     useNewUrlParser: true,
