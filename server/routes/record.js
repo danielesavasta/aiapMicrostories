@@ -55,7 +55,7 @@ recordRoutes.route("/listings").get(async function (_req, res) {
   const dbConnect = dbo.getDb();
 
   dbConnect
-    .collection(collection1)
+    //.collection(collection1)
     .find({})
     //.limit(50)
     .toArray(function (err, result) {
@@ -171,11 +171,11 @@ recordRoutes.route("/search/:p").get((req, res) => {
   const param = req.params.p;
   console.log(param);
   dbConnect
-    .collection(collection1)
+    //.collection(collection1)
     .createIndex({ "$**": "text" }, { name: "TextIndex" });
 
   dbConnect
-    .collection(collection1)
+    //.collection(collection1)
     .find({ $text: { $search: param } })
     .project({ _id: 1 })
     .toArray(async function (err, result) {
