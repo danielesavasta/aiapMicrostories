@@ -43,7 +43,7 @@ let dbConnection;
         if (err || !db) {
           return callback(err);
         }
-        console.log(db.listCollections().toArray());
+        console.log(db);
         dbConnection = db.db("aiap");
         console.log("Successfully connected to MongoDB.");
   
