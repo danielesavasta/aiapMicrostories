@@ -1,42 +1,45 @@
 const express = require("express");
-const fs = require('fs');
+const fs = require("fs");
 
 Object.defineProperty(exports, "__esModule", { value: true });
 Date.prototype.yyyyMMddHHmmss = function () {
-    var date = this;
-    var year = date.getFullYear();
-    var month = date.getMonth() + 1;
-    var day = date.getDate();
-    var hh = date.getHours();
-    var mm = date.getMinutes();
-    var ss = date.getSeconds();
-    return "" + year +
-        (month < 10 ? "0" + month : month) +
-        (day < 10 ? "0" + day : day) +
-        (hh < 10 ? "0" + hh : hh) +
-        (mm < 10 ? "0" + mm : mm) +
-        (ss < 10 ? "0" + ss : ss);
+  var date = this;
+  var year = date.getFullYear();
+  var month = date.getMonth() + 1;
+  var day = date.getDate();
+  var hh = date.getHours();
+  var mm = date.getMinutes();
+  var ss = date.getSeconds();
+  return (
+    "" +
+    year +
+    (month < 10 ? "0" + month : month) +
+    (day < 10 ? "0" + day : day) +
+    (hh < 10 ? "0" + hh : hh) +
+    (mm < 10 ? "0" + mm : mm) +
+    (ss < 10 ? "0" + ss : ss)
+  );
 };
 
-async function save(){
+async function save() {
   const dbConnect = dbo.getDb();
-  let jsonContent=await dbConnect.collection(collection1).find({}).toArray(); 
+  let jsonContent = await dbConnect.collection(collection1).find({}).toArray();
 
-// console.log(jsonContent);
+  // console.log(jsonContent);
 
   const utcTimestamp = new Date().yyyyMMddHHmmss();
-  const uri="backup/output"+utcTimestamp+".json";
-  const j=JSON.stringify(jsonContent);
+  const uri = "backup/output" + utcTimestamp + ".json";
+  const j = JSON.stringify(jsonContent);
 
-  fs.writeFile(uri, j, 'utf8', function (err) {
+  fs.writeFile(uri, j, "utf8", function (err) {
     if (err) {
-        console.log("An error occured while writing JSON Object to File.");
-        return console.log(err);
+      console.log("An error occured while writing JSON Object to File.");
+      return console.log(err);
     }
-  
+
     console.log("JSON file has been saved.");
   });
-  }
+}
 
 // recordRoutes is an instance of the express router.
 // We use it to define our routes.
@@ -91,14 +94,14 @@ recordRoutes.route("/update").post(function (req, res) {
   const dbConnect = dbo.getDb();
   save();
   const param = req.body;
-  console.log("en route "+param._id);
-  
+  console.log("en route " + param._id);
+
   //var ObjectId = require('mongodb').ObjectId;
   //let id = ObjectId(param._id);
   let id = param._id;
-  delete param['_id'];
+  delete param["_id"];
   const listingQuery = { _id: id };
-  const updates = {$set: param};
+  const updates = { $set: param };
   console.log(param);
 
   dbConnect
@@ -119,30 +122,30 @@ recordRoutes.route("/updateMany").post(function (req, res) {
   save();
   const param = req.body;
   console.log("en route ");
-  
+
   let listingQuery = [];
   //let ObjectID = require('mongodb').ObjectID;
-  let i=0, len=param.length;
-  while(i<len) {
-    if(param[i]) {
-    let id = param[i]._id;
-    delete param[i]._id;
-    listingQuery[i]={ updateOne: {"filter": {_id: id}, "update": {$set: param[i]}}};
+  let i = 0,
+    len = param.length;
+  while (i < len) {
+    if (param[i]) {
+      let id = param[i]._id;
+      delete param[i]._id;
+      listingQuery[i] = {
+        updateOne: { filter: { _id: id }, update: { $set: param[i] } },
+      };
     }
     i++;
   }
-  
+
   //delete param['_id'];
   //const updates = {$set: param};
   console.log(listingQuery);
-  try{
-    dbConnect
-    .collection(collection1)
-    .bulkWrite(listingQuery)
-  } 
-    catch( error ) {
-      print( error )
-   }
+  try {
+    dbConnect.collection(collection1).bulkWrite(listingQuery);
+  } catch (error) {
+    print(error);
+  }
 });
 
 // This section will help you delete a record.
@@ -167,12 +170,14 @@ recordRoutes.route("/search/:p").get((req, res) => {
   const dbConnect = dbo.getDb();
   const param = req.params.p;
   console.log(param);
-  dbConnect.collection(collection1).createIndex({ "$**": "text" }, { name: "TextIndex" });
+  dbConnect
+    .collection(collection1)
+    .createIndex({ "$**": "text" }, { name: "TextIndex" });
 
   dbConnect
     .collection(collection1)
     .find({ $text: { $search: param } })
-    .project({_id:1})
+    .project({ _id: 1 })
     .toArray(async function (err, result) {
       if (err) {
         res.status(400).send("Error fetching listings!");
