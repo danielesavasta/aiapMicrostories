@@ -32,8 +32,8 @@ let dbConnection;
         if (err || !db) {
           return callback(err);
         }
-        dbConnection = db.db("aiap");
-        console.log(dbConnection.artifacts);
+        dbConnection = db.db("aiap").collection("artifacts");
+        console.log(dbConnection);
        /* dbConnection.listCollections().toArray(function(err, collInfos) {
           // collInfos is an array of collection info objects that look like:
           // { name: 'test', options: {} }

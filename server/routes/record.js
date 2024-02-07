@@ -180,6 +180,7 @@ recordRoutes.route("/search/:p").get((req, res) => {
     .project({ _id: 1 })
     .toArray(async function (err, result) {
       if (err) {
+        console.log(dbConnect.collection(collection1))
         res.status(400).send("Error fetching listings!");
       } else {
         console.log(result);
