@@ -33,7 +33,7 @@ let dbConnection;
           return callback(err);
         }
         dbConnection = db.db("aiap").collection("artifacts");
-        console.log(dbConnection.find({}).toArray());
+        //console.log(dbConnection.find({}).toArray());
         
         console.log("Successfully connected to MongoDB.");
   
