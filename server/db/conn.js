@@ -43,13 +43,13 @@ let dbConnection;
         if (err || !db) {
           return callback(err);
         }
-        //console.log(db);
         dbConnection = db.db("aiap");
-        dbConnection.listCollections().toArray(function(err, collInfos) {
+        console.log(dbConnection);
+       /* dbConnection.listCollections().toArray(function(err, collInfos) {
           // collInfos is an array of collection info objects that look like:
           // { name: 'test', options: {} }
           console.log(collInfos);
-      });
+      });*/
         
         console.log("Successfully connected to MongoDB.");
   
