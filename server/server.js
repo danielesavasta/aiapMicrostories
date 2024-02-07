@@ -19,11 +19,12 @@ app.use(require('./routes/record'));
 app.use(express.json());
 
 // Global error handling
+/*
 app.use(function (err, _req, res) {
   console.log("ended up here");
   console.error(err.stack);
   res.status(500).send('Something broke!');
-});
+});*/
 
 // perform a database connection when the server starts
 dbo.connectToServer(function (err) {
@@ -35,5 +36,6 @@ dbo.connectToServer(function (err) {
   // start the Express server
   app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
+    console.log(collection1);
   });
 });
