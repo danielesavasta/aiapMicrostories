@@ -45,7 +45,7 @@ let dbConnection;
         }
         //console.log(db);
         dbConnection = db.db("aiap");
-        db.listCollections().toArray(function(err, collInfos) {
+        dbConnection.listCollections().toArray(function(err, collInfos) {
           // collInfos is an array of collection info objects that look like:
           // { name: 'test', options: {} }
           console.log(collInfos);
