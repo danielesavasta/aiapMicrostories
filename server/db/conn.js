@@ -1,14 +1,3 @@
-//const MongoClient = require("mongodb").MongoClient;
-//const connectionString = process.env.MONGOD_CONNECT_URI; //?directConnection=true
-/*
-const client = new MongoClient(connectionString, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }/*);
-  
-  */
-
-
 const { MongoClient, ServerApiVersion } = require("mongodb");
 // Replace the placeholder with your Atlas connection string
 const connectionString = process.env.MONGOD_CONNECT_URI;
@@ -44,7 +33,7 @@ let dbConnection;
           return callback(err);
         }
         dbConnection = db.db("aiap");
-        console.log(dbConnection);
+        console.log(dbConnection.artifacts);
        /* dbConnection.listCollections().toArray(function(err, collInfos) {
           // collInfos is an array of collection info objects that look like:
           // { name: 'test', options: {} }

@@ -3,7 +3,6 @@ const express = require('express');
 const cors = require('cors');
 // get MongoDB driver connection
 const dbo = require('./db/conn');
-const fs = require('fs');
 
 const PORT = process.env.PORT || 10000;
 const app = express();
@@ -36,6 +35,6 @@ dbo.connectToServer(function (err) {
   // start the Express server
   app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
-    console.log(collection1);
+   // console.log(collection1);
   });
 });
