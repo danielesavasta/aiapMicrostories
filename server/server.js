@@ -85,7 +85,7 @@ async function main() {
         console.error(e);
     } finally {
         // Close the connection to the MongoDB cluster
-        await client.close();
+        //await client.close();
     }
 }
 
