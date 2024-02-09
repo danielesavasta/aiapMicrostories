@@ -79,13 +79,16 @@ async function main() {
         // Make the appropriate DB calls
         //await listDatabases(client);
         //await listAll(client);
-
+        app.listen(PORT, () => {
+          console.log(`Server is running on port: ${PORT}`);
+         // console.log(collection1);
+        });
 
     } catch (e) {
         console.error(e);
     } finally {
         // Close the connection to the MongoDB cluster
-        //await client.close();
+        await client.close();
     }
 }
 
