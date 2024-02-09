@@ -55,7 +55,7 @@ dbo.connectToServer(function (err) {
 });
 */
 const { MongoClient } = require('mongodb');
-
+let dbo;
 async function main() {
     /**
      * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
@@ -75,7 +75,7 @@ async function main() {
     try {
         // Connect to the MongoDB cluster
         await client.connect();
-
+        dbo=client.db("aiap").collection(collection1);
         // Make the appropriate DB calls
         //await listDatabases(client);
         //await listAll(client);
@@ -111,7 +111,7 @@ const collection1 = "artifacts";
 app.get('/listings', (req, res) => {
  // const dbConnect = dbo.getDb();
   
-  collectionList = client.db("aiap").collection(collection1).find({}).toArray();
+  collectionList = dbo.find({}).toArray();
   res.json(collectionList);
 });
 
