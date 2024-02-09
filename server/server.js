@@ -111,7 +111,8 @@ const collection1 = "artifacts";
 // This section will help you get a list of all the records.
 app.get('/listings', (req, res) => {
  // const dbConnect = dbo.getDb();
-  
+  console.log("listing");
+  console.log(dbo);
   collectionList = dbo.find({}).toArray();
   res.json(collectionList);
 });
