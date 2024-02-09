@@ -75,6 +75,13 @@ async function main() {
     try {
         // Connect to the MongoDB cluster
         await client.connect();
+
+
+    } catch (e) {
+        console.error(e);
+    } finally {
+        // Close the connection to the MongoDB cluster
+        //await client.close();
         dbo=client.db("aiap").collection(collection1);
         // Make the appropriate DB calls
         //await listDatabases(client);
@@ -83,12 +90,6 @@ async function main() {
           console.log(`Server is running on port: ${PORT}`);
          // console.log(collection1);
         });
-
-    } catch (e) {
-        console.error(e);
-    } finally {
-        // Close the connection to the MongoDB cluster
-        await client.close();
     }
 }
 
