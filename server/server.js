@@ -64,6 +64,8 @@ async function main() {
 
         // Make the appropriate DB calls
         await listDatabases(client);
+        await findOneListingByName(client, "Infinite Views");
+
 
     } catch (e) {
         console.error(e);
@@ -85,3 +87,21 @@ async function listDatabases(client) {
     console.log("Databases:");
     databasesList.databases.forEach(db => console.log(` - ${db.name}`));
 };
+/**
+ * Print all
+ * @param {MongoClient} client A MongoClient that is connected to a cluster
+ */
+async function findOneListingByName(client) {
+  let collectionList = await client.db("aiap").collection("artifacts").find({})
+  //.limit(50)
+  .toArray(function (err, result) {
+    if (err) {
+      //res.status(400).send("Error fetching listings!");
+      console.log(err);
+    } else {
+      //res.json(result);
+      console.log(result);
+    }
+  });
+
+}
