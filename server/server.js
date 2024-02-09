@@ -93,7 +93,7 @@ async function listDatabases(client) {
  * @param {MongoClient} client A MongoClient that is connected to a cluster
  */
 async function listAll(client) {
-  collectionList = await client.db("aiap").collection("artifacts").find({})
+  collectionList = client.db("aiap").collection("artifacts").find({})
   //.limit(50)
   .toArray(function (err, result) {
     if (err) {
