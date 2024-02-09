@@ -105,10 +105,10 @@ async function listDatabases(client) {
 const collection1 = "artifacts";
 
 // This section will help you get a list of all the records.
-recordRoutes.route("/listings").get(async function (_req, res) {
-  const dbConnect = dbo.getDb();
-
-  collectionList = await client.db("aiap").collection(collection1).find({}).toArray();
+app.get('/listings', (req, res) => {
+ // const dbConnect = dbo.getDb();
+  
+  collectionList = client.db("aiap").collection(collection1).find({}).toArray();
   res.json(collectionList);
 });
 
