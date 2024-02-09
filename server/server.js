@@ -1,21 +1,35 @@
-//console.log("May Node be with you");
 const express = require('express');
 const cors = require('cors');
-// get MongoDB driver connection
-//const dbo = require('./db/conn');
 
 const PORT = process.env.PORT || 10000;
 const app = express();
 const bodyParser = require('body-parser')
-
-//app.use(express.json({limit: '50mb'}));
-//app.use(express.urlencoded({limit: '50mb'}));
 
 app.use(bodyParser.json({ limit: '50mb' }))
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(cors());
 // app.use(require('./routes/record'));
 app.use(express.json());
+
+Object.defineProperty(exports, "__esModule", { value: true });
+Date.prototype.yyyyMMddHHmmss = function () {
+  var date = this;
+  var year = date.getFullYear();
+  var month = date.getMonth() + 1;
+  var day = date.getDate();
+  var hh = date.getHours();
+  var mm = date.getMinutes();
+  var ss = date.getSeconds();
+  return (
+    "" +
+    year +
+    (month < 10 ? "0" + month : month) +
+    (day < 10 ? "0" + day : day) +
+    (hh < 10 ? "0" + hh : hh) +
+    (mm < 10 ? "0" + mm : mm) +
+    (ss < 10 ? "0" + ss : ss)
+  );
+};
 
 // Global error handling
 /*
@@ -64,7 +78,7 @@ async function main() {
 
         // Make the appropriate DB calls
         //await listDatabases(client);
-        await listAll(client);
+        //await listAll(client);
 
 
     } catch (e) {
@@ -88,12 +102,22 @@ async function listDatabases(client) {
     databasesList.databases.forEach(db => console.log(` - ${db.name}`));
 };
 
+const collection1 = "artifacts";
+
+// This section will help you get a list of all the records.
+recordRoutes.route("/listings").get(async function (_req, res) {
+  const dbConnect = dbo.getDb();
+
+  collectionList = await client.db("aiap").collection(collection1).find({}).toArray();
+  res.json(collectionList);
+});
+
 /**
  * Print all
  * @param {MongoClient} client A MongoClient that is connected to a cluster
  */
 async function listAll(client) {
-  collectionList = await client.db("aiap").collection("artifacts").find({}).toArray();
   console.log("List:");
   console.log(collectionList);
 }
+
