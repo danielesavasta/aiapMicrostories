@@ -8,8 +8,8 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.json({ limit: '50mb' }))
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(cors());
-// app.use(require('./routes/record'));
 app.use(express.json());
+app.set('view-engine', pug);
 
 Object.defineProperty(exports, "__esModule", { value: true });
 Date.prototype.yyyyMMddHHmmss = function () {
@@ -31,68 +31,29 @@ Date.prototype.yyyyMMddHHmmss = function () {
   );
 };
 
-// Global error handling
-/*
-app.use(function (err, _req, res) {
-  console.log("ended up here");
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});*/
-
-// perform a database connection when the server starts
-/*
-dbo.connectToServer(function (err) {
-  if (err) {
-    console.error(err);
-    process.exit();
-  }
-
-  // start the Express server
-  app.listen(PORT, () => {
-    console.log(`Server is running on port: ${PORT}`);
-   // console.log(collection1);
-  });
-});
-*/
 const { MongoClient } = require('mongodb');
 let dbo;
-async function main() {
-    /**
-     * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
-     * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
-     */
-    const uri = process.env.MONGOD_CONNECT_URI;
 
-    /**
-     * The Mongo Client you will use to interact with your database
-     * See https://mongodb.github.io/node-mongodb-native/3.6/api/MongoClient.html for more details
-     * In case: '[MONGODB DRIVER] Warning: Current Server Discovery and Monitoring engine is deprecated...'
-     * pass option { useUnifiedTopology: true } to the MongoClient constructor.
-     * const client =  new MongoClient(uri, {useUnifiedTopology: true})
-     */
+async function main() {
+    const uri = process.env.MONGOD_CONNECT_URI;
     const client = new MongoClient(uri);
 
     try {
-        // Connect to the MongoDB cluster
         await client.connect();
-
-
     } catch (e) {
         console.error(e);
     } finally {
-        // Close the connection to the MongoDB cluster
-        //await client.close();
         dbo=client.db("aiap").collection(collection1);
         // Make the appropriate DB calls
         //await listDatabases(client);
         //await listAll(client);
         app.listen(PORT, () => {
           console.log(`Server is running on port: ${PORT}`);
-         // console.log(collection1);
         });
     }
 }
 
+const collection1 = "artifacts";
 main().catch(console.error);
 
 /**
@@ -106,17 +67,13 @@ async function listDatabases(client) {
     databasesList.databases.forEach(db => console.log(` - ${db.name}`));
 };
 
-const collection1 = "artifacts";
 
 // This section will help you get a list of all the records.
 app.get('/listings', async (req, res) => {
- // const dbConnect = dbo.getDb();
   console.log("listing...");
-  // console.log(dbo);
   const collectionList = await dbo.find({}).toArray();
   
   console.log("loaded&sent...");
-  res.json(collectionList);
+  res.render('index', { title:"listing", message: "welcome here"})
+  //res.json(collectionList);
 });
-
-

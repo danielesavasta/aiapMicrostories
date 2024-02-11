@@ -1,7 +1,7 @@
 const ip="http://192.168.137.1"
 
 async function load() {
-  let db = await fetch(ip+":5000/listings", {
+  let db = await fetch(ip+"/listings", {
     headers: {
       Accept: "application/json",
     },
@@ -47,4 +47,8 @@ async function updateMany(input) {
   .then((res) => res.text())
     console.log(db);
  return db;
+}
+
+async function getUniqueTags(input) {
+  db.collection.distinct(field, query, options)
 }
